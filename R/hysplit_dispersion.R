@@ -170,10 +170,20 @@ hysplit_dispersion <- function(lat = 49.263,
   }
   
   # Extract the particle positions at every hour
+  if (any(c("mac", "unix") %in% system_type)) {
   sys_cmd <- 
     paste0("(cd ", exec_dir, " && ", parhplot_binary_path, " -iPARDUMP -a1)")
   
   system(sys_cmd)
+  }
+  
+  if (system_type == "win") {
+    sys_cmd <- 
+      paste0("(cd ", exec_dir, " && ", parhplot_binary_path, " -iPARDUMP -a1)")
+    
+    shell(sys_cmd)
+  }
+  
 
   # Remove the .att files from the working directory
   if (any(c("mac", "unix") %in% system_type)) {
