@@ -14,7 +14,7 @@
 dispersion_plot <- function(x,
                             color_scheme = "cycle_hues") {
   
-  if (inherits(x, "disp_model")) {
+  if (inherits(x, "dispersion_model")) {
     if (!is.null(x$disp_df)) {
       disp_df <- x$disp_df
     } else {
@@ -102,13 +102,18 @@ dispersion_plot <- function(x,
     groups <- c(groups, paste0("Hour ", i))
     
     # Add CircleMarkers for each hour
+    lonn<- subset(disp_df,
+                  hour == sort(unique(disp_df$hour))[i])[, 4]
+    latt<- subset(disp_df,
+                  hour == sort(unique(disp_df$hour))[i])[, 3]
+    lonn<-as.double(unlist(lonn))
+    latt<-as.double(unlist(latt))
+    
     disp_plot <-
       addCircleMarkers(
         disp_plot,
-        subset(disp_df,
-               hour == sort(unique(disp_df$hour))[i])[, 2],
-        subset(disp_df,
-               hour == sort(unique(disp_df$hour))[i])[, 3],
+        lonn,
+        latt,
         group = groups[i],
         radius = 1,
         stroke = FALSE,
